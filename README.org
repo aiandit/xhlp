@@ -54,8 +54,9 @@ stylesheets.
 
 #+begin_src JavaScript
   var viewTransform = xlp.mkXLP(['xsl/filter1.xsl', 'xsl/filter2.xsl'], '/static/')
-  var result = viewTransform(document.documentElement.outerHTML)
-  document.documentElement.outerHTML = result.documentElement.outerHTML
+  viewTransform.transform(document.documentElement.outerHTML, function(result) {
+     document.documentElement.outerHTML = result.documentElement.outerHTML
+  })
 #+end_src
 
 Create a XHLP pipeline using the function ~xlp.mkXLP~, giving it a
@@ -64,6 +65,7 @@ stylesheets.
 
 #+begin_src JavaScript
   var viewTransform = xlp.mkXLP(['xml/xhlp-pipeline.xml'], '/static/')
-  var result = viewTransform(document.documentElement.outerHTML)
-  document.documentElement.outerHTML = result.documentElement.outerHTML
+  viewTransform(document.documentElement.outerHTML, function(result) {
+     document.documentElement.outerHTML = result.documentElement.outerHTML
+  })
 #+end_src
