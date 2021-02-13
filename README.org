@@ -34,7 +34,7 @@ minor differences in the browser implementations of XSLT processing.
 
 * XHLP install
 
-Distribute [[./xlp.js]] from your server and include it in your HTML
+Distribute [[./js/xlp.js]] from your server and include it in your HTML
 content:
 
 #+begin_src html
