@@ -1,0 +1,69 @@
+#+title: XML hierarchical linear pipeline (XHLP)
+#+author: AI & IT UG
+#+email: info@ai-and-it.de
+
+* XHLP Description
+
+The XML hierarchical linear pipeline (XHLP) is suite of JavaScript
+functions to enable XML processing with XSLT in the browser.
+
+A XHLP pipeline consists of a list of processing steps, which
+transform an input XML document to either XML or text. Processing
+steps are either one of
+
+  - a relative URL ending with ~.xsl~: The document will be loaded and
+    an XSLT transformation will be performed
+  - a relative URL ending with ~.xml~: The document will be loaded, a
+    list of steps will be extracted from it and and a XHLP
+    transformation will be performed (hence the name /hierachical/)
+  - any other string will be evaluated with ~eval~, to produce a
+    function, which will be applied
+  - a ~function(in, done)~, which will be applied and which must call
+    ~done~ with the result
+
+XHLP is asynchronous and uses callback functions to return the
+processing result. XHLP is asynchronous because it automatically loads
+XSL stylesheets and XML pipeline definitions in the background, from
+a URL prefix that is set for each pipeline.
+
+Input to XHLP can be either parsed XML documents or XML markup, which
+will be parsed on the fly.
+
+XHLP works in all major webbrowsers and can be used to paper over
+minor differences in the browser implementations of XSLT processing.
+
+* XHLP install
+
+Distribute [[./xlp.js]] from your server and include it in your HTML
+content:
+
+#+begin_src html
+  <script src="/static/js/xlp.js" type="text/javascript"></script>
+#+end_src
+
+In order to use the hierarchical processing feature, the XSLT
+[[./xsl/xlp-get-steps.xsl]] must also be served, for example from the URL
+~/static/xsl/xlp-get-steps.xsl~. The URL prefix can be configured
+using the variable ~xlp.base~.
+
+* XHLP usage
+
+Create a XHLP pipeline using the function ~xlp.mkXLP~, giving it a
+list of stylesheet URLs and a base URL from where to download the
+stylesheets.
+
+#+begin_src JavaScript
+  var viewTransform = xlp.mkXLP(['xsl/filter1.xsl', 'xsl/filter2.xsl'], '/static/')
+  var result = viewTransform(document.documentElement.outerHTML)
+  document.documentElement.outerHTML = result.documentElement.outerHTML
+#+end_src
+
+Create a XHLP pipeline using the function ~xlp.mkXLP~, giving it a
+list of stylesheet URLs and a base URL from where to download the
+stylesheets.
+
+#+begin_src JavaScript
+  var viewTransform = xlp.mkXLP(['xml/xhlp-pipeline.xml'], '/static/')
+  var result = viewTransform(document.documentElement.outerHTML)
+  document.documentElement.outerHTML = result.documentElement.outerHTML
+#+end_src
