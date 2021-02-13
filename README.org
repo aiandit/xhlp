@@ -26,8 +26,8 @@ processing result. XHLP is asynchronous because it automatically loads
 XSL stylesheets and XML pipeline definitions in the background, from
 a URL prefix that is set for each pipeline.
 
-Input to XHLP can be either parsed XML documents or XML markup, which
-will be parsed on the fly.
+Input to XHLP can be either parsed XML documents, using ~transform~,
+or XML markup, which will be parsed on the fly by ~transformTxt~.
 
 XHLP works in all major webbrowsers and can be used to paper over
 minor differences in the browser implementations of XSLT processing.
@@ -65,7 +65,16 @@ stylesheets.
 
 #+begin_src JavaScript
   var viewTransform = xlp.mkXLP(['xml/xhlp-pipeline.xml'], '/static/')
-  viewTransform(document.documentElement.outerHTML, function(result) {
+  viewTransform.transform(document.documentElement.outerHTML, function(result) {
      document.documentElement.outerHTML = result.documentElement.outerHTML
+  })
+#+end_src
+
+If you want to produce text output, set the second argument ~toDoc~ to
+~false~:
+
+#+begin_src JavaScript
+  viewTransform.transform(document.documentElement.outerHTML, true, function(result) {
+     document.querySelector('#textbox').value = result.textContent
   })
 #+end_src
