@@ -506,7 +506,7 @@ xlp.mkXLP = function(xslts, xsltbase, options) {
     var transformTxt = function(instr, toDoc, done) {
         if (typeof done == "undefined") {
             done = toDoc
-            toDoc = true
+            toDoc = (options != undefined && options.output == 'text') ? false : true
         }
         var indoc = xlp.parseXML(instr)
         transform(indoc, toDoc,
